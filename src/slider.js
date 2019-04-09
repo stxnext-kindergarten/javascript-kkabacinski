@@ -39,17 +39,28 @@ export default class Slider {
     this.render();
     this.bindEventListeners();
     this.setSliderHeight();
+
   }
 
   bindEventListeners() {
-    this.$next.addEventListener('click', this.handleArrowClick('next'));
-    this.$prev.addEventListener('click', this.handleArrowClick('prev'));
+    this.$next.addEventListener('click', this.handleNextArrowClick);
+    this.$prev.addEventListener('click', this.handlePrevArrowClick);
     window.addEventListener('resize', this.onWindowResize);
   }
 
   render() {
     this.$el.appendChild(this.$slider);
   }
+
+  destroy() {
+    this.$next.removeEventListener('click', this.handleNextArrowClick);
+    this.$prev.removeEventListener('click', this.handlePrevArrowClick);
+    window.removeEventListener('resize', this.onWindowResize);
+    this.$el.removeChild(this.$slider);
+  }
+
+  handleNextArrowClick = this.handleArrowClick('next');
+  handlePrevArrowClick = this.handleArrowClick('prev');
 
   handleArrowClick(direction) {
     return (event) => {
